@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { NavBar } from '../components'
-import { MoviesList, MoviesInsert, MoviesUpdate, ResetPassword, ConfirmNewPassword } from '../pages'
+import { MoviesList, MoviesInsert, MoviesUpdate, ConfirmRegistration, ResetPassword, ConfirmNewPassword } from '../pages'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -21,6 +21,7 @@ function App() {
             </Switch>
             <Route path="/reset-password" exact component={ResetPassword} />
             <Route path="/confirm-new-password" exact component={ConfirmNewPassword} />
+            <Route path="/confirm-registration" exact component={ConfirmRegistration} />
         </Router>
     )
 }

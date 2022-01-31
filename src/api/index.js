@@ -15,6 +15,8 @@ export const getMovieById = id => api.get(`/movie/${id}`, { headers: setAuthHead
 export const resetPassword = payload => api.post(`/auth/reset-password`, payload)
 export const confirmNewPassword = payload => api.post(`/auth/confirm-new-password`, payload)
 
+export const confirmRegistration = payload => api.post(`/auth/confirm-registration`, payload)
+
 const apis = {
     insertMovie,
     getAllMovies,
@@ -22,7 +24,8 @@ const apis = {
     deleteMovieById,
     getMovieById,
     resetPassword,
-    confirmNewPassword
+    confirmNewPassword,
+    confirmRegistration
 }
 
 export default apis
