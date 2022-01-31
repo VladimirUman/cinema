@@ -34,6 +34,18 @@ class Links extends Component {
                             </Link>
                         </Item>
                     </List>
+                    <List>
+                        <Item>
+                            <Link to="/auth/login" className="nav-link">
+                                Login
+                            </Link>
+                        </Item>
+                        <Item>
+                            <Link to="/auth/registration" className="nav-link">
+                                Registration
+                            </Link>
+                        </Item>
+                    </List>
                 </Collapse>
             </React.Fragment>
         )
