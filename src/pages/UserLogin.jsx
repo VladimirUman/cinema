@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useCallback } from 'react';
 import api from '../api'
 
 import styled from 'styled-components'
@@ -29,42 +29,35 @@ const Button = styled.button.attrs({
     margin: 15px 15px 15px 188px;
 `
 
-class UserLogin extends Component {
-    constructor(props) {
-        super(props)
+function UserLogin() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-        this.state = {
-            email: '',
-            password: '',
-        }
-    }
-
-    handleChangeInputEmail = async event => {
-        const email = event.target.value
-        this.setState({ email })
-    }
-
-    handleChangeInputPassword = async event => {
-        const password = event.target.value
-        this.setState({ password })
-    }
-
-    handleUserLogin = async () => {
-        const { email, password } = this.state
-        const payload = { email, password}
+    const handleUserLogin = useCallback(async () => {
+        const payload = { email, password }
+        
 
         await api.loginUser(payload).then(res => {
-            window.alert(` User login successfully`)
-            this.setState({
-                email: '',
-                password: '',
-            })
+            window.alert(`User login successfully`);
+
+            window.location.href = '/';
+        }).catch((_) => {
+            window.alert(`Something went wrong`);
         })
+    }, [email, password]);
+
+
+    async function handleChangeInputEmail(event){
+        const email = event.target.value
+        setEmail(email);
     }
 
-    render() {
-        const { email, password } = this.state
-        return (
+    async function handleChangeInputPassword(event){
+        const password = event.target.value
+        setPassword(password)
+    }
+
+    return (
             <Wrapper>
                 <Title>Login</Title>
 
@@ -72,20 +65,19 @@ class UserLogin extends Component {
                 <InputText
                     type="text"
                     value={email}
-                    onChange={this.handleChangeInputEmail}
+                    onChange={handleChangeInputEmail}
                 />
 
                 <Label>Password: </Label>
                 <InputText
                     type="text"
                     value={password}
-                    onChange={this.handleChangeInputPassword}
+                    onChange={handleChangeInputPassword}
                 />
 
-                <Button onClick={this.handleUserLogin}>SignIn</Button>
+                <Button onClick={handleUserLogin}>SignIn</Button>
             </Wrapper>
-        )
+        );
     }
-}
 
 export default UserLogin

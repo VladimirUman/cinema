@@ -65,7 +65,7 @@ class UserRegistration extends Component {
         const { name, lastName, email, password } = this.state
         const payload = { name, lastName, email, password}
 
-        await api.insertUser(payload).then(res => {
+        await api.addedUser(payload).then(res => {
             window.alert(` User added successfully`)
             this.setState({
                 name: '',
