@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useCallback } from 'react';
 import api from '../api'
 
 import styled from 'styled-components'
@@ -29,55 +29,44 @@ const Button = styled.button.attrs({
     margin: 15px 15px 15px 188px;
 `
 
-class UserRegistration extends Component {
-    constructor(props) {
-        super(props)
+function UserRegistration() {
+    const [name, setName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-        this.state = {
-            name: '',
-            lastName: '',
-            email: '',
-            password: '',
-        }
-    }
-
-    handleChangeInputName = async event => {
-        const name = event.target.value
-        this.setState({ name })
-    }
-
-    handleChangeInputlastName = async event => {
-        const lastName = event.target.value
-        this.setState({ lastName })
-    }
-
-    handleChangeInputEmail = async event => {
-        const email = event.target.value
-        this.setState({ email })
-    }
-
-    handleChangeInputPassword = async event => {
-        const password = event.target.value
-        this.setState({ password })
-    }
-
-    handleIncAddedUser = async () => {
-        const { name, lastName, email, password } = this.state
-        const payload = { name, lastName, email, password}
+    const handleIncAddedUser = useCallback(async () => {
+        const payload = { name, lastName, email, password }
 
         await api.addedUser(payload).then(res => {
-            window.alert(` User added successfully`)
-            this.setState({
-                name: '',
-                lastName: '',
-                email: '',
-                password: '',
-            })
+            window.alert(`User login successfully`);
+
+            window.location.href = '/';
+        }).catch((_) => {
+            window.alert(`Something went wrong`);
         })
+    }, [name, lastName, email, password]);
+
+        
+    async function handleChangeInputName(event) {
+        const name = event.target.value
+        setName(name);
     }
 
-    render() {
-        const { name, lastName, email, password } = this.state
+    async function handleChangeInputlastName(event) {
+        const lastName = event.target.value
+        setLastName(lastName);
+    }
+
+    async function handleChangeInputEmail(event) {
+        const email = event.target.value
+        setEmail(email);
+    }
+
+    async function handleChangeInputPassword(event) {
+        const password = event.target.value
+        setPassword(password);
+    }
         return (
             <Wrapper>
                 <Title>Registration</Title>
@@ -86,35 +75,33 @@ class UserRegistration extends Component {
                 <InputText
                     type="text"
                     value={name}
-                    onChange={this.handleChangeInputName}
+                    onChange={handleChangeInputName}
                 />
 
                 <Label>Last Name </Label>
                 <InputText
                     type="text"
                     value={lastName}
-                    onChange={this.handleChangeInputlastName}
+                    onChange={handleChangeInputlastName}
                 />
 
                 <Label>Email: </Label>
                 <InputText
                     type="text"
-                    pattern="[0-9]+([,\.][0-9]+)?"
                     value={email}
-                    onChange={this.handleChangeInputEmail}
+                    onChange={handleChangeInputEmail}
                 />
 
                 <Label>Password: </Label>
                 <InputText
                     type="text"
                     value={password}
-                    onChange={this.handleChangeInputPassword}
+                    onChange={handleChangeInputPassword}
                 />
 
-                <Button onClick={this.handleIncAddedUser}>SignUp</Button>
+                <Button onClick={handleIncAddedUser}>SignUp</Button>
             </Wrapper>
-        )
+        );
     }
-}
 
 export default UserRegistration
