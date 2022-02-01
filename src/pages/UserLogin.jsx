@@ -38,7 +38,7 @@ function UserLogin() {
         
 
         await api.loginUser(payload).then(res => {
-            window.alert(`User login successfully`);
+            localStorage.setItem('token', res.data.accessToken)
 
             window.location.href = '/';
         }).catch((_) => {
