@@ -11,6 +11,7 @@ export const deleteMovieById = id => api.delete(`/movie/${id}`)
 export const getMovieById = id => api.get(`/movie/${id}`)
 
 export const resetPassword = payload => api.post(`/auth/reset-password`, payload)
+export const confirmNewPassword = payload => api.post(`/auth/confirm-new-password`, payload)
 
 const apis = {
     insertMovie,
@@ -18,7 +19,8 @@ const apis = {
     updateMovieById,
     deleteMovieById,
     getMovieById,
-    resetPassword
+    resetPassword,
+    confirmNewPassword
 }
 
 export default apis

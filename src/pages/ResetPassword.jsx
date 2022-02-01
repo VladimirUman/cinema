@@ -45,7 +45,7 @@ function ResetPassword() {
         })
     }, [email]);
 
-    async function handleChangeInputEmail(event) {
+    function handleChangeInputEmail(event) {
         const email = event.target.value;
         setEmail(email);
     }
