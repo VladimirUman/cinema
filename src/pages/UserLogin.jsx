@@ -49,12 +49,12 @@ function UserLogin() {
     
 
     const handleChangeInputEmail = useCallback(async (event) => {
-        const email = await event.target.value
+        const email = event.target.value
         setEmail(email);
     }, []);
 
     const handleChangeInputPassword = useCallback(async (event) => {
-        const password = await event.target.value
+        const password = event.target.value
         setPassword(password)
     }, []);
 
