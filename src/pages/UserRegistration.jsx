@@ -48,25 +48,25 @@ function UserRegistration() {
     }, [name, lastName, email, password]);
 
         
-    async function handleChangeInputName(event) {
+    const handleChangeInputName = useCallback(async (event) => {
         const name = event.target.value
         setName(name);
-    }
+    }, []);
 
-    async function handleChangeInputlastName(event) {
+    const handleChangeInputlastName = useCallback(async (event) => {
         const lastName = event.target.value
         setLastName(lastName);
-    }
+    }, []);
 
-    async function handleChangeInputEmail(event) {
+    const handleChangeInputEmail = useCallback(async (event) => {
         const email = event.target.value
         setEmail(email);
-    }
+    }, []);
 
-    async function handleChangeInputPassword(event) {
+    const handleChangeInputPassword = useCallback(async (event) => {
         const password = event.target.value
         setPassword(password);
-    }
+    }, []);
         return (
             <Wrapper>
                 <Title>Registration</Title>

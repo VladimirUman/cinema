@@ -47,15 +47,15 @@ function UserLogin() {
     }, [email, password]);
 
 
-    async function handleChangeInputEmail(event){
+    const handleChangeInputEmail = useCallback(async (event) => {
         const email = event.target.value
         setEmail(email);
-    }
+    }, []);
 
-    async function handleChangeInputPassword(event){
+    const handleChangeInputPassword = useCallback(async (event) => {
         const password = event.target.value
         setPassword(password)
-    }
+    }, []);
 
     return (
             <Wrapper>
