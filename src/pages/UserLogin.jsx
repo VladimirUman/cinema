@@ -36,24 +36,25 @@ function UserLogin() {
     const handleUserLogin = useCallback(async () => {
         const payload = { email, password }
         
+        try {
+            const response = await api.loginUser(payload);
+                localStorage.setItem('accessToken', response.data.accessToken)
+                localStorage.setItem('refreshToken', response.data.refreshToken)
 
-        await api.loginUser(payload).then(res => {
-            localStorage.setItem('token', res.data.accessToken)
-
-            window.location.href = '/';
-        }).catch((_) => {
+                window.location.href = '/';
+        } catch(_) {
             window.alert(`Something went wrong`);
-        })
+        }
     }, [email, password]);
-
+    
 
     const handleChangeInputEmail = useCallback(async (event) => {
-        const email = event.target.value
+        const email = await event.target.value
         setEmail(email);
     }, []);
 
     const handleChangeInputPassword = useCallback(async (event) => {
-        const password = event.target.value
+        const password = await event.target.value
         setPassword(password)
     }, []);
 
