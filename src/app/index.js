@@ -14,6 +14,7 @@ function App() {
                 <Route path="/movies/list" exact component={MoviesList} />
                 <Route path="/movies/create" exact component={MoviesInsert} />
                 <Route path="/movies/update/:id" exact component={MoviesUpdate} />
+                <Route path="/movies/update/:id" exact component={MoviesUpdate} />
                 <Route path="/auth/login" exact component={UserLogin} />
                 <Route path="/auth/registration" exact component={UserRegistration} />
                 <Route path="/reset-password" exact component={ResetPassword} />
