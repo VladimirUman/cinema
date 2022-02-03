@@ -9,7 +9,7 @@ const parseJwt = (token) => {
 };
 
 function getLocalAccessToken() {
-    let accessToken = localStorage.getItem('accessToken');
+    let accessToken = sessionStorage.getItem('accessToken');
 
     if (!accessToken) {
         return null;
@@ -28,7 +28,7 @@ function getLocalAccessToken() {
             });
 
             accessToken = response.data.accessToken;
-            localStorage.setItem('accessToken', accessToken);
+            sessionStorage.setItem('accessToken', accessToken);
         } catch (_) {
             return null;
         }
@@ -38,7 +38,7 @@ function getLocalAccessToken() {
 }
 
 function getLocalRefreshToken() {
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = sessionStorage.getItem('refreshToken');
     return refreshToken;
 }
 

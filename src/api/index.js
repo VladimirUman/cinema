@@ -45,7 +45,7 @@ api.interceptors.response.use(
                 try {
                     const rs = await refreshToken();
                     const { accessToken } = rs.data;
-                    localStorage.setItem('accessToken', accessToken);
+                    sessionStorage.setItem('accessToken', accessToken);
                     api.defaults.headers.common["Authorization"] = accessToken;
         
                     return api(originalConfig);
