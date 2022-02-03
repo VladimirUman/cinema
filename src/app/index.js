@@ -16,10 +16,10 @@ function App() {
                 <Route path="/movies/update/:id" exact component={MoviesUpdate} />
                 <Route path="/auth/login" exact component={UserLogin} />
                 <Route path="/auth/registration" exact component={UserRegistration} />
+                <Route path="/reset-password" exact component={ResetPassword} />
+                <Route path="/confirm-new-password" exact component={ConfirmNewPassword} />
+                <Route path="/confirm-registration" exact component={ConfirmRegistration} />
             </Switch>
-            <Route path="/reset-password" exact component={ResetPassword} />
-            <Route path="/confirm-new-password" exact component={ConfirmNewPassword} />
-            <Route path="/confirm-registration" exact component={ConfirmRegistration} />
         </Router>
     )
 }
