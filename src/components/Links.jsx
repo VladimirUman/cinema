@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { authenticationService } from '../services/authentication'
@@ -15,65 +15,59 @@ const Item = styled.div.attrs({
     className: 'collpase navbar-collapse',
 })``
 
-class Links extends Component {
-    constructor(props) {
-        super(props);
+function Links() {
+    const [isLogged, setIsLogged] = useState(false);
 
-        this.state = {
-            isLogged: false
-        };
-    }
+    useEffect(() => {
+        authenticationService.observableToken.subscribe(result => setIsLogged(Boolean(result)));
+    });
 
-    componentDidMount() {
-        authenticationService.isLogedIn.subscribe(result => this.setState({ isLogged: Boolean(result) }));
-    }
+    const onLogoutPressed = useCallback(() => {
+        authenticationService.logout()
+    }, []);
 
-    render() {
-        const { isLogged } = this.state;
-
-        return (
-            <React.Fragment>
-                <Link to="/" className="navbar-brand">
-                    MERN Cinema
-                </Link>
-                <Collapse>
-                    {isLogged &&
-                        <List>
-                            <Item>
-                                <Link to="/movies/list" className="nav-link">
-                                    List Movies
-                                </Link>
-                            </Item>
-                            <Item>
-                                <Link to="/movies/create" className="nav-link">
-                                    Create Movie
-                                </Link>
-                            </Item>
-                        </List>
-                    }
-                </Collapse>
-                <List>
-                    <Item>
-                        {!isLogged &&
-                            <Link to="/auth/login" className="nav-link">
-                                Login
+    return (
+        <React.Fragment>
+            <Link to="/" className="navbar-brand">
+                MERN Cinema
+            </Link>
+            <Collapse>
+                {isLogged &&
+                    <List>
+                        <Item>
+                            <Link to="/movies/list" className="nav-link">
+                                List Movies
                             </Link>
-                        }
-                        {isLogged &&
-                            <Link to="/" onClick={() => authenticationService.logout()} className="nav-link">
-                                Logout
+                        </Item>
+                        <Item>
+                            <Link to="/movies/create" className="nav-link">
+                                Create Movie
                             </Link>
-                        }
-                    </Item>
-                    <Item>
-                        <Link to="/auth/registration" className="nav-link">
-                            Registration
+                        </Item>
+                    </List>
+                }
+            </Collapse>
+            <List>
+                <Item>
+                    {!isLogged &&
+                        <Link to="/auth/login" className="nav-link">
+                            Login
                         </Link>
-                    </Item>
-                </List>
-            </React.Fragment>
-        )
-    }
+                    }
+                    {isLogged &&
+                        <Link to="/" onClick={onLogoutPressed} className="nav-link">
+                            Logout
+                        </Link>
+                    }
+                </Item>
+                <Item>
+                    <Link to="/auth/registration" className="nav-link">
+                        Registration
+                    </Link>
+                </Item>
+            </List>
+        </React.Fragment>
+    )
 }
 
 export default Links

@@ -60,6 +60,6 @@ async function logout() {
 export const authenticationService = {
     getLocalAccessToken,
     getLocalRefreshToken,
-    isLogedIn: accessTokenSubject.asObservable(),
+    observableToken: accessTokenSubject.asObservable(),
     logout
 }
