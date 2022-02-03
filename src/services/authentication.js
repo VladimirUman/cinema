@@ -1,4 +1,8 @@
+import { BehaviorSubject } from 'rxjs';
+
 import api from '../api'
+
+const accessTokenSubject = new BehaviorSubject(sessionStorage.getItem('accessToken'));
 
 const parseJwt = (token) => {
     try {
@@ -23,7 +27,7 @@ function getLocalAccessToken() {
 
     if (Date.now() > tokenData.exp * 1000) {
         try {
-            const response = api.post('/auth/refresh-tokens', {
+            const response = api.refreshTokens({
                 refreshToken: getLocalRefreshToken(),
             });
 
@@ -34,6 +38,8 @@ function getLocalAccessToken() {
         }
     }
 
+    accessTokenSubject.next(accessToken);
+
     return accessToken;
 }
 
@@ -42,4 +48,18 @@ function getLocalRefreshToken() {
     return refreshToken;
 }
 
-export { getLocalAccessToken, getLocalRefreshToken }
+async function logout() {
+    api.logout({ refreshToken: getLocalRefreshToken() });
+
+    sessionStorage.removeItem('refreshToken');
+    sessionStorage.removeItem('accessToken');
+
+    accessTokenSubject.next(null);
+}
+
+export const authenticationService = {
+    getLocalAccessToken,
+    getLocalRefreshToken,
+    isLogedIn: accessTokenSubject.asObservable(),
+    logout
+}

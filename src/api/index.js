@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { getLocalAccessToken, getLocalRefreshToken } from '../services/authentication'
+import { authenticationService } from '../services/authentication'
 
 const api = axios.create({
     baseURL: 'http://localhost:3000/api',
@@ -9,15 +9,9 @@ const api = axios.create({
     }
 })
 
-function refreshToken() {
-    return api.post('/auth/refresh-tokens', {
-        refreshToken: getLocalRefreshToken(),
-    });
-}
-
 api.interceptors.request.use(
     (config) => {
-        const token = getLocalAccessToken();
+        const token = authenticationService.getLocalAccessToken();
         if (token) {
             config.headers["Authorization"] = token;
         }
@@ -43,7 +37,7 @@ api.interceptors.response.use(
                 originalConfig._retry = true;
 
                 try {
-                    const rs = await refreshToken();
+                    const rs = await apis.refreshTokens({ refreshToken: authenticationService.getLocalRefreshToken() });
                     const { accessToken } = rs.data;
                     sessionStorage.setItem('accessToken', accessToken);
                     api.defaults.headers.common["Authorization"] = accessToken;
@@ -67,19 +61,21 @@ api.interceptors.response.use(
     }
 );
 
-export const insertMovie = payload => api.post(`/movie`, payload)
+export const insertMovie = payload => api.post(`/movies`, payload)
 export const getAllMovies = () => api.get(`/movies`)
-export const updateMovieById = (id, payload) => api.put(`/movie/${id}`, payload)
-export const deleteMovieById = id => api.delete(`/movie/${id}`)
-export const getMovieById = id => api.get(`/movie/${id}`)
+export const updateMovieById = (id, payload) => api.put(`/movies/${id}`, payload)
+export const deleteMovieById = id => api.delete(`/movies/${id}`)
+export const getMovieById = id => api.get(`/movies/${id}`)
 
 export const resetPassword = payload => api.post(`/auth/reset-password`, payload)
 export const confirmNewPassword = payload => api.post(`/auth/confirm-new-password`, payload)
+export const refreshTokens = payload => api.post(`/auth/refresh-tokens`, payload)
 
 export const confirmRegistration = payload => api.post(`/auth/confirm-registration`, payload)
 
 export const addedUser = payload => api.post(`/auth/registration`, payload)
 export const loginUser = payload => api.post(`/auth/login`, payload)
+export const logout = payload => api.post('/auth/logout', payload)
 
 const apis = {
     insertMovie,
@@ -92,7 +88,8 @@ const apis = {
     confirmRegistration,
     addedUser,
     loginUser,
-
+    refreshTokens,
+    logout
 }
 
 export default apis
