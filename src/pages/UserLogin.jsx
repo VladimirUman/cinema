@@ -38,8 +38,8 @@ function UserLogin() {
         
         try {
             const response = await api.loginUser(payload);
-                localStorage.setItem('accessToken', response.data.accessToken)
-                localStorage.setItem('refreshToken', response.data.refreshToken)
+            sessionStorage.setItem('accessToken', response.data.accessToken)
+            sessionStorage.setItem('refreshToken', response.data.refreshToken)
 
                 window.location.href = '/';
         } catch(_) {
