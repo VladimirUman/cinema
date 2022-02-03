@@ -10,7 +10,7 @@ const Title = styled.h1.attrs({
 const Wrapper = styled.div.attrs({
     className: 'form-group',
 })`
-    margin: 0 800px;
+    margin: 30px 80px;
 `
 
 const Label = styled.label`
@@ -21,12 +21,13 @@ const InputText = styled.input.attrs({
     className: 'form-control',
 })`
     margin: 5px;
+    width: 30%;
 `
 
 const Button = styled.button.attrs({
     className: `btn btn-primary`,
 })`
-    margin: 15px 15px 15px 188px;
+    margin: 15px 15px 15px 5px;
 `
 
 function UserLogin() {
