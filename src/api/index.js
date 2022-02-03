@@ -17,6 +17,9 @@ export const confirmNewPassword = payload => api.post(`/auth/confirm-new-passwor
 
 export const confirmRegistration = payload => api.post(`/auth/confirm-registration`, payload)
 
+export const addedUser = payload => api.post(`/auth/registration`, payload)
+export const loginUser = payload => api.post(`/auth/login`, payload)
+
 const apis = {
     insertMovie,
     getAllMovies,
@@ -25,7 +28,10 @@ const apis = {
     getMovieById,
     resetPassword,
     confirmNewPassword,
-    confirmRegistration
+    confirmRegistration,
+    addedUser,
+    loginUser,
+
 }
 
 export default apis
