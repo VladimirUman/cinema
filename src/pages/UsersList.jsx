@@ -23,7 +23,7 @@ class UpdateUser extends Component {
     }
 
     render() {
-        return <Update onClick={this.updateUser}>Chenge</Update>
+        return <Update onClick={this.updateUser}>Update</Update>
     }
 }
 

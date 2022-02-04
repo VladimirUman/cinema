@@ -6,5 +6,7 @@ import ConfirmNewPassword from './ConfirmNewPassword'
 import ConfirmRegistration from './ConfirmRegistration'
 import UserRegistration from './UserRegistration'
 import UserLogin from './UserLogin'
+import UsersList from './UsersList'
+import UsersUpdate from './UsersUpdate'
 
-export { MoviesList, MoviesInsert, MoviesUpdate, ConfirmRegistration, ResetPassword, ConfirmNewPassword, UserRegistration, UserLogin }
+export { MoviesList, MoviesInsert, MoviesUpdate, ConfirmRegistration, ResetPassword, ConfirmNewPassword, UserRegistration, UserLogin, UsersList, UsersUpdate }
