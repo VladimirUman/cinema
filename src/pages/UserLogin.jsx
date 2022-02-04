@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import api from '../api'
+import { Link } from 'react-router-dom'
 
 import styled from 'styled-components'
 
@@ -72,12 +73,16 @@ function UserLogin() {
 
                 <Label>Password: </Label>
                 <InputText
-                    type="text"
+                    type="password"
                     value={password}
                     onChange={handleChangeInputPassword}
                 />
 
                 <Button onClick={handleUserLogin}>SignIn</Button>
+
+                <Link to="/reset-password" className="nav-link">
+                    Forgot password?
+                </Link>
             </Wrapper>
         );
     }

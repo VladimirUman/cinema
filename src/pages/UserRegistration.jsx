@@ -95,7 +95,7 @@ function UserRegistration() {
 
                 <Label>Password: </Label>
                 <InputText
-                    type="text"
+                    type="password"
                     value={password}
                     onChange={handleChangeInputPassword}
                 />
