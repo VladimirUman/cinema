@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { authenticationService } from '../services/authentication'
 
 const Collapse = styled.div.attrs({
     className: 'collpase navbar-collapse',
@@ -14,14 +15,24 @@ const Item = styled.div.attrs({
     className: 'collpase navbar-collapse',
 })``
 
-class Links extends Component {
-    render() {
-        return (
-            <React.Fragment>
-                <Link to="/" className="navbar-brand">
-                    My first MERN Application
-                </Link>
-                <Collapse>
+function Links() {
+    const [isLogged, setIsLogged] = useState(false);
+
+    useEffect(() => {
+        authenticationService.observableToken.subscribe(result => setIsLogged(Boolean(result)));
+    });
+
+    const onLogoutPressed = useCallback(() => {
+        authenticationService.logout()
+    }, []);
+
+    return (
+        <React.Fragment>
+            <Link to="/" className="navbar-brand">
+                MERN Cinema
+            </Link>
+            <Collapse>
+                {isLogged &&
                     <List>
                         <Item>
                             <Link to="/movies/list" className="nav-link">
@@ -34,22 +45,29 @@ class Links extends Component {
                             </Link>
                         </Item>
                     </List>
-                    <List>
-                        <Item>
-                            <Link to="/auth/login" className="nav-link">
-                                Login
-                            </Link>
-                        </Item>
-                        <Item>
-                            <Link to="/auth/registration" className="nav-link">
-                                Registration
-                            </Link>
-                        </Item>
-                    </List>
-                </Collapse>
-            </React.Fragment>
-        )
-    }
+                }
+            </Collapse>
+            <List>
+                <Item>
+                    {!isLogged &&
+                        <Link to="/auth/login" className="nav-link">
+                            Login
+                        </Link>
+                    }
+                    {isLogged &&
+                        <Link to="/" onClick={onLogoutPressed} className="nav-link">
+                            Logout
+                        </Link>
+                    }
+                </Item>
+                <Item>
+                    <Link to="/auth/registration" className="nav-link">
+                        Registration
+                    </Link>
+                </Item>
+            </List>
+        </React.Fragment>
+    )
 }
 
 export default Links
