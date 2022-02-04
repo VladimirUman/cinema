@@ -67,11 +67,11 @@ api.interceptors.response.use(
     }
 );
 
-export const insertMovie = payload => api.post(`/movie`, payload)
+export const insertMovie = payload => api.post(`/movies`, payload)
 export const getAllMovies = () => api.get(`/movies`)
-export const updateMovieById = (id, payload) => api.put(`/movie/${id}`, payload)
-export const deleteMovieById = id => api.delete(`/movie/${id}`)
-export const getMovieById = id => api.get(`/movie/${id}`)
+export const updateMovieById = (id, payload) => api.put(`/movies/${id}`, payload)
+export const deleteMovieById = id => api.delete(`/movies/${id}`)
+export const getMovieById = id => api.get(`/movies/${id}`)
 
 export const resetPassword = payload => api.post(`/auth/reset-password`, payload)
 export const confirmNewPassword = payload => api.post(`/auth/confirm-new-password`, payload)
@@ -80,6 +80,8 @@ export const confirmRegistration = payload => api.post(`/auth/confirm-registrati
 
 export const addedUser = payload => api.post(`/auth/registration`, payload)
 export const loginUser = payload => api.post(`/auth/login`, payload)
+export const getUsers = payload => api.get(`/users`, payload)
+export const updateUserById = (id, payload) => api.put(`/users/${id}`, payload)
 
 const apis = {
     insertMovie,
@@ -92,6 +94,8 @@ const apis = {
     confirmRegistration,
     addedUser,
     loginUser,
+    getUsers,
+    updateUserById,
 
 }
 
