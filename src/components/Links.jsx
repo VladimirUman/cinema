@@ -60,11 +60,13 @@ function Links() {
                         </Link>
                     }
                 </Item>
-                <Item>
-                    <Link to="/auth/registration" className="nav-link">
-                        Registration
-                    </Link>
-                </Item>
+                {!isLogged &&
+                    <Item>
+                        <Link to="/auth/registration" className="nav-link">
+                            Registration
+                        </Link>
+                    </Item>
+                }
             </List>
         </React.Fragment>
     )

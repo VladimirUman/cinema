@@ -1,7 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import api from '../api'
-
+import { useForm } from "react-hook-form";
 import styled from 'styled-components'
+
+import { emailValidator, passwordValidator, nameValidator } from '../services/validation-rules'
 
 const Title = styled.h1.attrs({
     className: 'h1',
@@ -31,76 +33,59 @@ const Button = styled.button.attrs({
 `
 
 function UserRegistration() {
-    const [name, setName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleIncAddedUser = useCallback(async () => {
-        const payload = { name, lastName, email, password }
+    const handleIncAddedUser = useCallback(async (data) => {
+        try {
+            await api.addedUser(data);
 
-        await api.addedUser(payload).then(res => {
-            window.alert(`User login successfully`);
+            window.alert(`Sent confirmation email`);
 
             window.location.href = '/';
-        }).catch((_) => {
-            window.alert(`Something went wrong`);
-        })
-    }, [name, lastName, email, password]);
-
-        
-    const handleChangeInputName = useCallback(async (event) => {
-        const name = event.target.value
-        setName(name);
+        } catch(err) {
+            window.alert(err['validationErrors'] ? err['validationErrors'][0]['msg'] : err['errors']);
+        }
     }, []);
 
-    const handleChangeInputlastName = useCallback(async (event) => {
-        const lastName = event.target.value
-        setLastName(lastName);
-    }, []);
-
-    const handleChangeInputEmail = useCallback(async (event) => {
-        const email = event.target.value
-        setEmail(email);
-    }, []);
-
-    const handleChangeInputPassword = useCallback(async (event) => {
-        const password = event.target.value
-        setPassword(password);
-    }, []);
         return (
             <Wrapper>
                 <Title>Registration</Title>
 
-                <Label>First Name </Label>
-                <InputText
-                    type="text"
-                    value={name}
-                    onChange={handleChangeInputName}
-                />
+                <form onSubmit={handleSubmit(handleIncAddedUser)}>
+                    <Label>First Name </Label>
+                    <InputText
+                        type="text"
+                        autoComplete="off"
+                        {...register("name", nameValidator)}
+                    />
+                    {errors.name && <p>Please check the Name</p>}
 
-                <Label>Last Name </Label>
-                <InputText
-                    type="text"
-                    value={lastName}
-                    onChange={handleChangeInputlastName}
-                />
+                    <Label>Last Name </Label>
+                    <InputText
+                        type="text"
+                        autoComplete="off"
+                        {...register("lastName", nameValidator)}
+                    />
+                    {errors.lastName && <p>Please check the LastName</p>}
 
-                <Label>Email: </Label>
-                <InputText
-                    type="text"
-                    value={email}
-                    onChange={handleChangeInputEmail}
-                />
+                    <Label>Email: </Label>
+                    <InputText
+                        type="text"
+                        autoComplete="off"
+                        {...register("email", emailValidator)}
+                    />
+                    {errors.email && <p>Please check the Email</p>}
 
-                <Label>Password: </Label>
-                <InputText
-                    type="password"
-                    value={password}
-                    onChange={handleChangeInputPassword}
-                />
+                    <Label>Password: </Label>
+                    <InputText
+                        type="password"
+                        autoComplete="off"
+                        {...register("password", passwordValidator)}
+                    />
+                    {errors.password && <p>Please check the Password</p>}
 
-                <Button onClick={handleIncAddedUser}>SignUp</Button>
+                    <Button type="submit">SignUp</Button>
+                </form>
             </Wrapper>
         );
     }
