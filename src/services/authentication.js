@@ -1,6 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
+import axios from "axios";
 
-import api from '../api'
+import api, { BASE_URL } from '../api';
 
 const accessTokenSubject = new BehaviorSubject(sessionStorage.getItem('accessToken'));
 
@@ -12,28 +13,34 @@ const parseJwt = (token) => {
     }
 };
 
-function getLocalAccessToken() {
+async function getLocalAccessToken() {
     let accessToken = sessionStorage.getItem('accessToken');
 
     if (!accessToken) {
+        accessTokenSubject.next(null);
+
         return null;
     }
 
     const tokenData = parseJwt(accessToken);
 
     if (!tokenData) {
+        accessTokenSubject.next(null);
+
         return null;
     }
 
     if (Date.now() > tokenData.exp * 1000) {
         try {
-            const response = api.refreshTokens({
+            const response = await axios.post(BASE_URL + '/auth/refresh-tokens', {
                 refreshToken: getLocalRefreshToken(),
             });
 
             accessToken = response.data.accessToken;
             sessionStorage.setItem('accessToken', accessToken);
         } catch (_) {
+            accessTokenSubject.next(null);
+
             return null;
         }
     }
@@ -48,18 +55,23 @@ function getLocalRefreshToken() {
     return refreshToken;
 }
 
-async function logout() {
-    api.logout({ refreshToken: getLocalRefreshToken() });
-
+function deleteLocalTokens() {
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('accessToken');
 
     accessTokenSubject.next(null);
 }
 
+async function logout() {
+    api.logout({ refreshToken: getLocalRefreshToken() });
+
+    deleteLocalTokens();
+}
+
 export const authenticationService = {
     getLocalAccessToken,
     getLocalRefreshToken,
     observableToken: accessTokenSubject.asObservable(),
-    logout
+    logout,
+    deleteLocalTokens
 }
