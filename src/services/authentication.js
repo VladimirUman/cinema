@@ -3,8 +3,6 @@ import axios from "axios";
 
 import api, { BASE_URL } from '../api';
 
-const accessTokenSubject = new BehaviorSubject(sessionStorage.getItem('accessToken'));
-
 const parseJwt = (token) => {
     try {
         return JSON.parse(atob(token.split('.')[1]));
@@ -13,11 +11,32 @@ const parseJwt = (token) => {
     }
 };
 
+function getCurrentUser(token) {
+    if (!token) {
+        return null;
+    }
+
+    const tokenData = parseJwt(token);
+
+    if (!tokenData) {
+        return null;
+    }
+
+    const currentUser = {
+        id: tokenData.userId,
+        email: tokenData.email
+    }
+
+    return currentUser;
+}
+
+const currentUserSubject = new BehaviorSubject(getCurrentUser(sessionStorage.getItem('accessToken')));
+
 async function getLocalAccessToken() {
     let accessToken = sessionStorage.getItem('accessToken');
 
     if (!accessToken) {
-        accessTokenSubject.next(null);
+        currentUserSubject.next(null);
 
         return null;
     }
@@ -25,7 +44,7 @@ async function getLocalAccessToken() {
     const tokenData = parseJwt(accessToken);
 
     if (!tokenData) {
-        accessTokenSubject.next(null);
+        currentUserSubject.next(null);
 
         return null;
     }
@@ -39,13 +58,13 @@ async function getLocalAccessToken() {
             accessToken = response.data.accessToken;
             sessionStorage.setItem('accessToken', accessToken);
         } catch (_) {
-            accessTokenSubject.next(null);
+            currentUserSubject.next(null);
 
             return null;
         }
     }
 
-    accessTokenSubject.next(accessToken);
+    currentUserSubject.next(getCurrentUser(accessToken));
 
     return accessToken;
 }
@@ -59,7 +78,7 @@ function deleteLocalTokens() {
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('accessToken');
 
-    accessTokenSubject.next(null);
+    currentUserSubject.next(null);
 }
 
 async function logout() {
@@ -71,7 +90,7 @@ async function logout() {
 export const authenticationService = {
     getLocalAccessToken,
     getLocalRefreshToken,
-    observableToken: accessTokenSubject.asObservable(),
+    observableCurrentUser: currentUserSubject.asObservable(),
     logout,
     deleteLocalTokens
 }

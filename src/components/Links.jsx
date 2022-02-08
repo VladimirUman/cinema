@@ -17,9 +17,13 @@ const Item = styled.div.attrs({
 
 function Links() {
     const [isLogged, setIsLogged] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        authenticationService.observableToken.subscribe(result => setIsLogged(Boolean(result)));
+        authenticationService.observableCurrentUser.subscribe(user => {
+            setCurrentUser(user);
+            setIsLogged(Boolean(currentUser && currentUser.id));
+        });
     });
 
     const onLogoutPressed = useCallback(() => {
@@ -55,18 +59,23 @@ function Links() {
                         </Link>
                     }
                     {isLogged &&
+                        <Link to="/account" className="nav-link">
+                            {currentUser ? currentUser.email : ''}
+                        </Link>
+                    }
+                </Item>
+                <Item>
+                    {!isLogged &&
+                        <Link to="/auth/registration" className="nav-link">
+                            Registration
+                        </Link>
+                    }
+                    {isLogged &&
                         <Link to="/" onClick={onLogoutPressed} className="nav-link">
                             Logout
                         </Link>
                     }
                 </Item>
-                {!isLogged &&
-                    <Item>
-                        <Link to="/auth/registration" className="nav-link">
-                            Registration
-                        </Link>
-                    </Item>
-                }
             </List>
         </React.Fragment>
     )
