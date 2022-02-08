@@ -50,32 +50,32 @@ function UserLogin() {
     }, []);
 
     return (
-            <Wrapper>
-                <Title>Login</Title>
-                <form onSubmit={handleSubmit(handleUserLogin)}>
-                    <Label>Email: </Label>
-                    <InputText
-                        type="text"
-                        autoComplete="off"
-                        {...register("email", emailValidator)}
-                    />
-                    {errors.email && <p>Please check the Email</p>}
+        <Wrapper>
+            <Title>Login</Title>
+            <form onSubmit={handleSubmit(handleUserLogin)}>
+                <Label>Email: </Label>
+                <InputText
+                    type="text"
+                    autoComplete="off"
+                    {...register("email", emailValidator)}
+                />
+                {errors.email && <p>Please check the Email</p>}
 
-                    <Label>Password: </Label>
-                    <InputText
-                        type="password"
-                        {...register("password", passwordValidator)}
-                    />
-                    {errors.password && <p>Please check the Password</p>}
+                <Label>Password: </Label>
+                <InputText
+                    type="password"
+                    {...register("password", passwordValidator)}
+                />
+                {errors.password && <p>Please check the Password</p>}
 
-                    <Button type="submit">SignIn</Button>
+                <Button type="submit">SignIn</Button>
 
-                    <Link to="/reset-password" className="nav-link">
-                        Forgot password?
-                    </Link>
-                </form>
-            </Wrapper>
-        );
-    }
+                <Link to="/reset-password" className="nav-link">
+                    Forgot password?
+                </Link>
+            </form>
+        </Wrapper>
+    );
+}
 
 export default UserLogin

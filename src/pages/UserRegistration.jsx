@@ -47,47 +47,47 @@ function UserRegistration() {
         }
     }, []);
 
-        return (
-            <Wrapper>
-                <Title>Registration</Title>
+    return (
+        <Wrapper>
+            <Title>Registration</Title>
 
-                <form onSubmit={handleSubmit(handleIncAddedUser)}>
-                    <Label>First Name </Label>
-                    <InputText
-                        type="text"
-                        autoComplete="off"
-                        {...register("name", nameValidator)}
-                    />
-                    {errors.name && <p>Please check the Name</p>}
+            <form onSubmit={handleSubmit(handleIncAddedUser)}>
+                <Label>First Name </Label>
+                <InputText
+                    type="text"
+                    autoComplete="off"
+                    {...register("name", nameValidator)}
+                />
+                {errors.name && <p>Please check the Name</p>}
 
-                    <Label>Last Name </Label>
-                    <InputText
-                        type="text"
-                        autoComplete="off"
-                        {...register("lastName", nameValidator)}
-                    />
-                    {errors.lastName && <p>Please check the LastName</p>}
+                <Label>Last Name </Label>
+                <InputText
+                    type="text"
+                    autoComplete="off"
+                    {...register("lastName", nameValidator)}
+                />
+                {errors.lastName && <p>Please check the LastName</p>}
 
-                    <Label>Email: </Label>
-                    <InputText
-                        type="text"
-                        autoComplete="off"
-                        {...register("email", emailValidator)}
-                    />
-                    {errors.email && <p>Please check the Email</p>}
+                <Label>Email: </Label>
+                <InputText
+                    type="text"
+                    autoComplete="off"
+                    {...register("email", emailValidator)}
+                />
+                {errors.email && <p>Please check the Email</p>}
 
-                    <Label>Password: </Label>
-                    <InputText
-                        type="password"
-                        autoComplete="off"
-                        {...register("password", passwordValidator)}
-                    />
-                    {errors.password && <p>Please check the Password</p>}
+                <Label>Password: </Label>
+                <InputText
+                    type="password"
+                    autoComplete="off"
+                    {...register("password", passwordValidator)}
+                />
+                {errors.password && <p>Please check the Password</p>}
 
-                    <Button type="submit">SignUp</Button>
-                </form>
-            </Wrapper>
-        );
-    }
+                <Button type="submit">SignUp</Button>
+            </form>
+        </Wrapper>
+    );
+}
 
 export default UserRegistration
