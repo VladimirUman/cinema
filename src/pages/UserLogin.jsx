@@ -1,8 +1,10 @@
-import React, { useState, useCallback } from 'react';
-import api from '../api'
+import React, { useCallback } from 'react';
+import { useForm } from "react-hook-form";
+import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import styled from 'styled-components'
+import api from '../api'
+import { emailValidator, passwordValidator } from '../services/validation-rules'
 
 const Title = styled.h1.attrs({
     className: 'h1',
@@ -32,59 +34,48 @@ const Button = styled.button.attrs({
 `
 
 function UserLogin() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleUserLogin = useCallback(async () => {
-        const payload = { email, password }
-        
-        try {
-            const response = await api.loginUser(payload);
-            sessionStorage.setItem('accessToken', response.data.accessToken)
-            sessionStorage.setItem('refreshToken', response.data.refreshToken)
+    const handleUserLogin = useCallback(async (data) => {
+            try {
+                const response = await api.loginUser(data);
+                sessionStorage.setItem('accessToken', response.data.accessToken)
+                sessionStorage.setItem('refreshToken', response.data.refreshToken)
 
                 window.location.href = '/';
-        } catch(_) {
-            window.alert(`Something went wrong`);
-        }
-    }, [email, password]);
-    
+            } catch(err) {
+                window.alert(err['validationErrors'] ? err['validationErrors'][0]['msg'] : err['errors']);
+            }
 
-    const handleChangeInputEmail = useCallback(async (event) => {
-        const email = event.target.value
-        setEmail(email);
-    }, []);
-
-    const handleChangeInputPassword = useCallback(async (event) => {
-        const password = event.target.value
-        setPassword(password)
     }, []);
 
     return (
-            <Wrapper>
-                <Title>Login</Title>
-
+        <Wrapper>
+            <Title>Login</Title>
+            <form onSubmit={handleSubmit(handleUserLogin)}>
                 <Label>Email: </Label>
                 <InputText
                     type="text"
-                    value={email}
-                    onChange={handleChangeInputEmail}
+                    autoComplete="off"
+                    {...register("email", emailValidator)}
                 />
+                {errors.email && <p>Please check the Email</p>}
 
                 <Label>Password: </Label>
                 <InputText
                     type="password"
-                    value={password}
-                    onChange={handleChangeInputPassword}
+                    {...register("password", passwordValidator)}
                 />
+                {errors.password && <p>Please check the Password</p>}
 
-                <Button onClick={handleUserLogin}>SignIn</Button>
+                <Button type="submit">SignIn</Button>
 
                 <Link to="/reset-password" className="nav-link">
                     Forgot password?
                 </Link>
-            </Wrapper>
-        );
-    }
+            </form>
+        </Wrapper>
+    );
+}
 
 export default UserLogin

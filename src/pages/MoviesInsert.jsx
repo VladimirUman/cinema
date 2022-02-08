@@ -1,7 +1,10 @@
-import React, { Component } from 'react'
+import React, { useCallback } from 'react'
+import { useForm } from "react-hook-form";
 import api from '../api'
 
 import styled from 'styled-components'
+
+import { nameValidator } from '../services/validation-rules'
 
 const Title = styled.h1.attrs({
     className: 'h1',
@@ -36,87 +39,57 @@ const CancelButton = styled.a.attrs({
     margin: 15px 15px 15px 5px;
 `
 
-class MoviesInsert extends Component {
-    constructor(props) {
-        super(props)
+function MoviesInsert() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
 
-        this.state = {
-            name: '',
-            rating: '',
-            time: '',
-        }
-    }
-
-    handleChangeInputName = async event => {
-        const name = event.target.value
-        this.setState({ name })
-    }
-
-    handleChangeInputRating = async event => {
-        const rating = event.target.validity.valid
-            ? event.target.value
-            : this.state.rating
-
-        this.setState({ rating })
-    }
-
-    handleChangeInputTime = async event => {
-        const time = event.target.value
-        this.setState({ time })
-    }
-
-    handleIncludeMovie = async () => {
-        const { name, rating, time } = this.state
+    const handleCreateMovie = useCallback(async (data) => {
+        const { name, rating, time } = data
         const arrayTime = time.split('/')
         const payload = { name, rating, time: arrayTime }
 
-        await api.insertMovie(payload).then(res => {
+        try {
+            await api.insertMovie(payload);
+
             window.alert(`Movie inserted successfully`)
-            this.setState({
-                name: '',
-                rating: '',
-                time: '',
-            })
-        })
-    }
 
-    render() {
-        const { name, rating, time } = this.state
-        return (
-            <Wrapper>
-                <Title>Create Movie</Title>
+            window.location.href = '/movies/list';
+        } catch(err) {
+            window.alert(err['validationErrors'] ? err['validationErrors'][0]['msg'] : err['errors'])
+        }
+    }, []);
 
+    return (
+        <Wrapper>
+            <Title>Create Movie</Title>
+
+            <form onSubmit={handleSubmit(handleCreateMovie)}>
                 <Label>Name: </Label>
                 <InputText
                     type="text"
-                    value={name}
-                    onChange={this.handleChangeInputName}
+                    {...register("name", nameValidator)}
                 />
+                {errors.name && <p>Please check the Name</p>}
 
                 <Label>Rating: </Label>
                 <InputText
                     type="number"
                     step="0.1"
-                    lang="en-US"
-                    min="0"
-                    max="10"
-                    pattern="[0-9]+([,\.][0-9]+)?"
-                    value={rating}
-                    onChange={this.handleChangeInputRating}
+                    {...register("rating", { required: true, min: 0, max: 10, pattern: /[0-9]+([,.][0-9]+)?/ })}
                 />
+                {errors.rating && <p>Please check the Rating</p>}
 
                 <Label>Time: </Label>
                 <InputText
                     type="text"
-                    value={time}
-                    onChange={this.handleChangeInputTime}
+    {...register("time", { required: true, pattern: /([0-9]{1,2}):([0-9]{2})/ })}
                 />
+                {errors.time && <p>Please check the Time</p>}
 
-                <Button onClick={this.handleIncludeMovie}>Add Movie</Button>
+                <Button type="submit">Add Movie</Button>
                 <CancelButton href={'/movies/list'}>Cancel</CancelButton>
-            </Wrapper>
-        )
-    }
+            </form>
+        </Wrapper>
+    )
 }
 
 export default MoviesInsert
