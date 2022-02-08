@@ -78,6 +78,7 @@ export const loginUser = payload => api.post(`/auth/login`, payload)
 export const logout = payload => api.post('/auth/logout', payload)
 export const getUsers = payload => api.get(`/users`, payload)
 export const updateUserById = (id, payload) => api.put(`/users/${id}`, payload)
+export const getAccount = payload => api.get(`/account`, payload)
 
 
 const apis = {
@@ -95,6 +96,7 @@ const apis = {
     logout,
     getUsers,
     updateUserById,
+    getAccount,
 }
 
 export default apis
