@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import api from '../api'
+import api from '../../api'
 import { useForm } from "react-hook-form";
 import styled from 'styled-components'
 
-import { emailValidator, passwordValidator, nameValidator } from '../services/validation-rules'
+import { emailValidator, passwordValidator, nameValidator } from '../../services/validation-rules'
 
 const Title = styled.h1.attrs({
     className: 'h1',

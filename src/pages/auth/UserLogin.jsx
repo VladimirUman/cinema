@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import api from '../api'
-import { emailValidator, passwordValidator } from '../services/validation-rules'
+import api from '../../api'
+import { emailValidator, passwordValidator } from '../../services/validation-rules'
 
 const Title = styled.h1.attrs({
     className: 'h1',
@@ -70,7 +70,7 @@ function UserLogin() {
 
                 <Button type="submit">SignIn</Button>
 
-                <Link to="/reset-password" className="nav-link">
+                <Link to="/auth/reset-password" className="nav-link">
                     Forgot password?
                 </Link>
             </form>

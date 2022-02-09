@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react'
 import { useForm } from "react-hook-form";
-import api from '../api'
+import api from '../../api'
 
 import styled from 'styled-components'
 
-import { nameValidator } from '../services/validation-rules'
+import { nameValidator } from '../../services/validation-rules'
 
 const Title = styled.h1.attrs({
     className: 'h1',

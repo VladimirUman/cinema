@@ -82,6 +82,8 @@ export const addedUser = payload => api.post(`/auth/registration`, payload)
 export const loginUser = payload => api.post(`/auth/login`, payload)
 export const logout = payload => api.post('/auth/logout', payload)
 
+export const changePassword = payload => api.put('/account/change-password', payload)
+
 const apis = {
     insertMovie,
     getAllMovies,
@@ -94,7 +96,8 @@ const apis = {
     addedUser,
     loginUser,
     refreshTokens,
-    logout
+    logout,
+    changePassword
 }
 
 export default apis
