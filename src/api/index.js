@@ -86,6 +86,8 @@ export const updateUserById = (id, payload) => api.put(`/users/${id}`, payload)
 export const getAccount = payload => api.get(`/account`, payload)
 
 
+export const changePassword = payload => api.put('/account/change-password', payload)
+
 const apis = {
     insertMovie,
     getAllMovies,
@@ -102,6 +104,7 @@ const apis = {
     getUsers,
     updateUserById,
     getAccount,
+    changePassword
 }
 
 export default apis
