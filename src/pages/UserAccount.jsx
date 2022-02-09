@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 import api from '../api'
 
 import styled from 'styled-components'
-
 
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
@@ -17,18 +16,19 @@ function UsersList() {
      const [user, setUser] = useState({});
        
      useEffect(() => {
-        async function fetchData() {
-            await api.getAccount().then(response => {
-                setUser(response.data.user)
-               })
-          };
-          fetchData();
-    }, []);
+             fetchData();
+  },);
+
+    const fetchData = useCallback(async () => {
+        await api.getAccount().then(response => {
+            setUser(response.data.user)
+           })
+       }, []);
      return (
             <Wrapper>
                 <Title>{user.name}</Title>
                 <Title>{user.lastName}</Title>
-                <Title>{user.email}</Title>                        
+                <Title>{user.email}</Title>
             </Wrapper>
      );
 }
