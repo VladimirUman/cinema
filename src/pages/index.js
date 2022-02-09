@@ -7,6 +7,8 @@ import ConfirmRegistration from './auth/ConfirmRegistration'
 import UserRegistration from './auth/UserRegistration'
 import UserLogin from './auth/UserLogin'
 import ChangePassword from './account/ChangePassword'
+import UserAccount from './account/UserAccount'
+import UpdateAccount from './account/UpdateAccount'
 
 export {
     MoviesList,
@@ -17,5 +19,7 @@ export {
     ConfirmNewPassword,
     UserRegistration,
     UserLogin,
-    ChangePassword
+    ChangePassword,
+    UserAccount,
+    UpdateAccount
 }
