@@ -1,8 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
+import axios from "axios";
 
-import api from '../api'
-
-const accessTokenSubject = new BehaviorSubject(sessionStorage.getItem('accessToken'));
+import api, { BASE_URL } from '../api';
 
 const parseJwt = (token) => {
     try {
@@ -12,33 +11,60 @@ const parseJwt = (token) => {
     }
 };
 
-function getLocalAccessToken() {
+function getCurrentUser(token) {
+    if (!token) {
+        return null;
+    }
+
+    const tokenData = parseJwt(token);
+
+    if (!tokenData) {
+        return null;
+    }
+
+    const currentUser = {
+        id: tokenData.userId,
+        email: tokenData.email
+    }
+
+    return currentUser;
+}
+
+const currentUserSubject = new BehaviorSubject(getCurrentUser(sessionStorage.getItem('accessToken')));
+
+async function getLocalAccessToken() {
     let accessToken = sessionStorage.getItem('accessToken');
 
     if (!accessToken) {
+        currentUserSubject.next(null);
+
         return null;
     }
 
     const tokenData = parseJwt(accessToken);
 
     if (!tokenData) {
+        currentUserSubject.next(null);
+
         return null;
     }
 
     if (Date.now() > tokenData.exp * 1000) {
         try {
-            const response = api.refreshTokens({
+            const response = await axios.post(BASE_URL + '/auth/refresh-tokens', {
                 refreshToken: getLocalRefreshToken(),
             });
 
             accessToken = response.data.accessToken;
             sessionStorage.setItem('accessToken', accessToken);
         } catch (_) {
+            currentUserSubject.next(null);
+
             return null;
         }
     }
 
-    accessTokenSubject.next(accessToken);
+    currentUserSubject.next(getCurrentUser(accessToken));
 
     return accessToken;
 }
@@ -48,18 +74,23 @@ function getLocalRefreshToken() {
     return refreshToken;
 }
 
-async function logout() {
-    api.logout({ refreshToken: getLocalRefreshToken() });
-
+function deleteLocalTokens() {
     sessionStorage.removeItem('refreshToken');
     sessionStorage.removeItem('accessToken');
 
-    accessTokenSubject.next(null);
+    currentUserSubject.next(null);
+}
+
+async function logout() {
+    api.logout({ refreshToken: getLocalRefreshToken() });
+
+    deleteLocalTokens();
 }
 
 export const authenticationService = {
     getLocalAccessToken,
     getLocalRefreshToken,
-    observableToken: accessTokenSubject.asObservable(),
-    logout
+    observableCurrentUser: currentUserSubject.asObservable(),
+    logout,
+    deleteLocalTokens
 }

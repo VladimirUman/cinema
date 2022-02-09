@@ -2,16 +2,18 @@ import axios from 'axios'
 
 import { authenticationService } from '../services/authentication'
 
+export const BASE_URL = 'http://localhost:3000/api';
+
 const api = axios.create({
-    baseURL: 'http://localhost:3000/api',
+    baseURL: BASE_URL,
     headers: {
         "Content-Type": "application/json",
     }
 })
 
 api.interceptors.request.use(
-    (config) => {
-        const token = authenticationService.getLocalAccessToken();
+    async (config) => {
+        const token = await authenticationService.getLocalAccessToken();
         if (token) {
             config.headers["Authorization"] = token;
         }
@@ -31,13 +33,12 @@ api.interceptors.response.use(
         const originalConfig = err.config;
 
         if (err.response) {
-            const authErrorsStatusCodes = [419, 401];
             // Access Token was expired
-            if (authErrorsStatusCodes.includes(err.response.status) && !originalConfig._retry) {
+            if (err.response.status === 419 && !originalConfig._retry) {
                 originalConfig._retry = true;
 
                 try {
-                    const rs = await apis.refreshTokens({ refreshToken: authenticationService.getLocalRefreshToken() });
+                    const rs = await axios.post(BASE_URL + '/auth/refresh-tokens', { refreshToken: authenticationService.getLocalRefreshToken() });
                     const { accessToken } = rs.data;
                     sessionStorage.setItem('accessToken', accessToken);
                     api.defaults.headers.common["Authorization"] = accessToken;
@@ -50,6 +51,10 @@ api.interceptors.response.use(
         
                     return Promise.reject(_error);
                 }
+            }
+
+            if (err.response.status === 401) {
+                authenticationService.deleteLocalTokens();
             }
 
             if (err.response.data) {
