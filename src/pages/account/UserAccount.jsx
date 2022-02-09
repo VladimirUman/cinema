@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback,Component } from 'react'
 
-import api from '../api'
+import api from '../../api'
 
 import styled from 'styled-components'
 
-const Update = styled.div`
-    color: #ef9b0f;
-    cursor: pointer;
+const Update = styled.button.attrs({
+    className: `btn btn-primary`,
+})`
+    margin: 15px 15px 15px 0px;
 `
 
 const Wrapper = styled.div`
@@ -24,7 +25,7 @@ class UpdateUser extends Component {
     }
 
     render() {
-        return <Update onClick={this.updateUser}>Update</Update>
+        return <Update onClick={this.updateUser}>Change personal data</Update>
     }
 }
 
