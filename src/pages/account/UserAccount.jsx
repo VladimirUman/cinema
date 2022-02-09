@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useCallback,Component } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 
 import api from '../../api'
 
 import styled from 'styled-components'
 
-const Update = styled.button.attrs({
-    className: `btn btn-primary`,
-})`
-    margin: 15px 15px 15px 0px;
-`
+
 
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
@@ -16,18 +13,6 @@ const Wrapper = styled.div`
 const Title = styled.h1.attrs({
     className: 'h1',
 })``
-
-class UpdateUser extends Component {
-    updateUser = event => {
-        event.preventDefault()
-
-        window.location.href = `/users/update/${this.props.id}`
-    }
-
-    render() {
-        return <Update onClick={this.updateUser}>Change personal data</Update>
-    }
-}
 
 
 function Account() {
@@ -50,7 +35,12 @@ function Account() {
                 <Title>{user.lastName}</Title>
                 <Title>{user.email}</Title>
 
-                <span><UpdateUser id={user._id} /></span>
+                <Link to="/account/update-account" className="nav-link">
+                Change personal data
+                </Link>
+                <Link to="/account/change-password" className="nav-link">
+                Change password
+                </Link>
             </Wrapper>
      );
 }

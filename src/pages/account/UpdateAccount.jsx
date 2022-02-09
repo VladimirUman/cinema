@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import api from '../../api'
 
 import styled from 'styled-components'
@@ -44,15 +44,23 @@ function UsersUpdate() {
     const handleUpdateUser = useCallback(async () => {
         const payload = {name, lastName}
 
-        await api.updateUserById(payload).then(res => {
-            window.alert(`User login successfully`);
-
-            window.location.href = '/';
+        await api.updateAccount(payload).then(res => {
+            window.alert(`Account updated`);
         }).catch((_) => {
             window.alert(`Something went wrong`);
         })
     }, [name, lastName]);
     
+    const fetchData = useCallback(async () => {
+        await api.getAccount().then(response => {
+            setName(response.data.user.name)
+            setLastName(response.data.user.lastName)
+           })
+       }, []);
+
+       useEffect(() => {
+                fetchData();
+       },[fetchData]);
 
     const handleChangeInputName = useCallback(async(event) => {
         const name = event.target.value

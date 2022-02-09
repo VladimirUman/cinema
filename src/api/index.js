@@ -82,7 +82,7 @@ export const addedUser = payload => api.post(`/auth/registration`, payload)
 export const loginUser = payload => api.post(`/auth/login`, payload)
 export const logout = payload => api.post('/auth/logout', payload)
 export const getUsers = () => api.get(`/users`)
-export const updateUserById = (id, payload) => api.put(`/users/${id}`, payload)
+export const updateAccount = (payload) => api.put(`/account`, payload)
 export const getAccount = () => api.get(`/account`)
 
 
@@ -102,7 +102,7 @@ const apis = {
     refreshTokens,
     logout,
     getUsers,
-    updateUserById,
+    updateAccount,
     getAccount,
     changePassword
 }
