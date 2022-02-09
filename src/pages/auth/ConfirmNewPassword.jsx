@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useLocation } from "react-router-dom";
 import qs from 'qs';
 
-import api from '../api'
+import api from '../../api'
 import styled from 'styled-components'
 
 const Title = styled.h1.attrs({

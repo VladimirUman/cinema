@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 
-import api from '../api'
+import api from '../../api'
 import styled from 'styled-components'
 
 const Title = styled.h1.attrs({
