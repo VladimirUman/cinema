@@ -9,6 +9,7 @@ import UserLogin from './auth/UserLogin'
 import ChangePassword from './account/ChangePassword'
 import UserAccount from './account/UserAccount'
 import UpdateAccount from './account/UpdateAccount'
+import UsersList from './account/UsersList'
 
 export {
     MoviesList,
@@ -21,5 +22,7 @@ export {
     UserLogin,
     ChangePassword,
     UserAccount,
-    UpdateAccount
+    UpdateAccount,
+    UsersList
+    
 }

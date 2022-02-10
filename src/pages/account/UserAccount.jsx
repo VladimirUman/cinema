@@ -5,7 +5,11 @@ import api from '../../api'
 
 import styled from 'styled-components'
 
-
+const Button = styled.button.attrs({
+    className: `btn btn-primary`,
+})`
+    margin: 15px 15px 15px 0px;
+`
 
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
@@ -30,18 +34,26 @@ function Account() {
        },[fetchData]);
 
      return (
-            <Wrapper>
-                <Title>{user.name}</Title>
-                <Title>{user.lastName}</Title>
-                <Title>{user.email}</Title>
-
-                <Link to="/account/update-account" className="nav-link">
-                Change personal data
-                </Link>
-                <Link to="/account/change-password" className="nav-link">
-                Change password
-                </Link>
-            </Wrapper>
+        <Wrapper>
+             <Title>{user.name}</Title>
+             <Title>{user.lastName}</Title>
+             <Title>{user.email}</Title>
+        <Button>
+             <Link  to="/account/update-account" className="btn btn-primary">
+               Change personal data
+             </Link>
+        </Button>
+        <Button>
+              <Link  to="/account/change-password" className="btn btn-primary">
+               Change password
+        </Link>
+        </Button>
+        <Button>
+              <Link  to="/account/change-password" className="btn btn-primary">
+               Change Email
+        </Link>
+        </Button>
+     </Wrapper>
      );
 }
 export default Account
