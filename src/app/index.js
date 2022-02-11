@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { NavBar } from '../components'
-import { MoviesList, MoviesInsert, MoviesUpdate, ConfirmRegistration, ResetPassword, ConfirmNewPassword, UserLogin, UserRegistration, UserAccount, ChangePassword, UpdateAccount, UsersList} from '../pages'
+import { MoviesList, MoviesInsert, MoviesUpdate, ConfirmRegistration, ResetPassword, ConfirmNewPassword, UserLogin, UserRegistration, UserAccount, ChangePassword, UpdateAccount, UsersList, UpdateUserAccount} from '../pages'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -24,6 +24,7 @@ function App() {
                 <Route path="/account/change-password" exact component={ChangePassword} />
                 <Route path="/account/update-account" exact component={UpdateAccount} />
                 <Route path="/account/users-list" exact component={UsersList} />
+                <Route path="/account/update-user-account" exact component={UpdateUserAccount} />
 
             </Switch>
         </Router>
