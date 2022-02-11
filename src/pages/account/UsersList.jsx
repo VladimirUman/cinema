@@ -50,7 +50,7 @@ function UsersList() {
                 Cell: function(props) {
                     return (
                         <span>
-                           <Link  to="/account/update-user-account" className="btn btn-primary">
+                           <Link  to="/account/update-user" className="btn btn-primary">
                               Update
                            </Link>
                            <Button href={''}>Delet</Button>

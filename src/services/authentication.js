@@ -24,7 +24,8 @@ function getCurrentUser(token) {
 
     const currentUser = {
         id: tokenData.userId,
-        email: tokenData.email
+        email: tokenData.email,
+        role: tokenData.role
     }
 
     return currentUser;
