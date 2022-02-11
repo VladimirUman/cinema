@@ -49,7 +49,7 @@ function Account() {
         </Link>
         </Button>
         <Button>
-              <Link  to="/account/change-password" className="btn btn-primary">
+              <Link  to="" className="btn btn-primary">
                Change Email
         </Link>
         </Button>

@@ -1,6 +1,7 @@
-import React, {useCallback, useState, useEffect } from 'react'
+import React, {useCallback, useState, useEffect} from 'react'
 import ReactTable from 'react-table'
 import api from '../../api'
+import { Link } from 'react-router-dom'
 
 import styled from 'styled-components'
 
@@ -8,6 +9,11 @@ import 'react-table/react-table.css'
 
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
+`
+const Button = styled.a.attrs({
+    className: `btn btn-danger`,
+})`
+    margin: 15px 15px 15px 5px;
 `
 
 function UsersList() {
@@ -37,6 +43,20 @@ function UsersList() {
             {
                 Header: 'Email',
                 accessor: 'email',
+            },
+            {
+                Header: '',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                           <Link  to="/account/update-user-account" className="btn btn-primary">
+                              Update
+                           </Link>
+                           <Button href={''}>Delet</Button>
+                        </span>
+                    )
+                },
             },
         ]
 
