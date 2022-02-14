@@ -23,8 +23,8 @@ function App() {
                 <Route path="/auth/confirm-registration" exact component={ConfirmRegistration} />
                 <Route path="/account/change-password" exact component={ChangePassword} />
                 <Route path="/account/update-account" exact component={UpdateAccount} />
-                <Route path="/account/users-list" exact component={UsersList} />
-                <Route path="/account/update-user-account" exact component={UpdateUserAccount} />
+                <Route path="/users/list" exact component={UsersList} />
+                <Route path="/users/update/:id" exact component={UpdateUserAccount} />
 
             </Switch>
         </Router>
