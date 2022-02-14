@@ -30,7 +30,7 @@ function App() {
                     {currentUser.role === 'admin' && <>
                         <Route path="/users/list" exact component={UsersList} />
                         <Route path="/users/create" exact component={MoviesInsert} />
-                        <Route path="/users/update-user" exact component={UpdateUserAccount} />
+                        <Route path="/users/update/:id" exact component={UpdateUserAccount} />
                     </>}
                 </>}
                     <Route path="/auth/login" exact component={UserLogin} />
