@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import Logo from './Logo'
@@ -10,15 +10,13 @@ const Nav = styled.nav.attrs({
     margin: 0px 40px 20px 40px;
 `
 
-class NavBar extends Component {
-    render() {
-        return (
-            <Nav>
-                <Logo />
-                <Links />
-            </Nav>
-        )
-    }
+function NavBar(props) {
+    return (
+        <Nav>
+            <Logo />
+            <Links {...props}/>
+        </Nav>
+    )
 }
 
 export default NavBar
