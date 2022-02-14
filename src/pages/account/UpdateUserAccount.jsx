@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect } from 'react'
 import api from '../../api'
 
 import styled from 'styled-components'
+import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
 
 const Title = styled.h1.attrs({
     className: 'h1',
@@ -37,26 +38,25 @@ const CancelButton = styled.a.attrs({
 `
 
 function UsersUpdate() {
-
+    const {id} = useParams();
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
 
     const handleUpdateUser = useCallback(async () => {
-        const payload = {name, lastName}
+        const payload = {id, name, lastName}
 
-        await api.updateAccount(payload).then(res => {
+        await api.updateUser(payload).then(res => {
             window.alert(`Account updated`);
         }).catch((_) => {
             window.alert(`Something went wrong`);
         })
-    }, [name, lastName]);
-    
+    }, [id, name, lastName]);
     const fetchData = useCallback(async () => {
-        await api.getAccount().then(response => {
-            setName(response.data.user.name)
-            setLastName(response.data.user.lastName)
+        await api.getUserById(id).then(response => { 
+            setName(response.data.data.name)
+            setLastName(response.data.data.lastName)
            })
-       }, []);
+       }, [id]);
 
        useEffect(() => {
                 fetchData();
@@ -89,7 +89,7 @@ function UsersUpdate() {
                 />
 
                 <Button onClick={handleUpdateUser}>Save</Button>
-                <CancelButton href={'/account/users-list'}>Back</CancelButton>
+                <CancelButton href={'/users/list'}>Back</CancelButton>
             </Wrapper>
         );
     }
