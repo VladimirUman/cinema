@@ -84,11 +84,10 @@ export const logout = payload => api.post('/auth/logout', payload)
 export const getUsers = () => api.get(`/users`)
 export const updateAccount = (payload) => api.put(`/account`, payload)
 export const getAccount = () => api.get(`/account`)
-export const getUserById = id => api.get(`/users/${id}`)
-export const updateUser = (id, payload) => api.put(`/users/${id}`, payload)
-
 
 export const changePassword = payload => api.put('/account/change-password', payload)
+export const getUserById = id => api.get(`/users/${id}`)
+export const updateUser = (id, payload) => api.put(`/users/${id}`, payload)
 
 const apis = {
     insertMovie,
