@@ -14,15 +14,31 @@ const Update = styled.a.attrs({
 })`
     margin: 15px 15px 15px 5px;
 `
-
+const Delete = styled.a.attrs({
+    className: `btn btn-danger`,
+})`
+    margin: 15px 15px 15px 5px;
+`
 
 function UsersList() {
     const [users, setUsers] = useState({});
 
-    const updateUser  = useCallback((id) => {
+    const updateUser  = (id) => (e) => {
        
         window.location.href = `/users/update/${id}`
-    }, []);
+    };
+
+    const deleteUser  = (id) => (e) => {
+       
+        if (
+            window.confirm(
+                `Do tou want to delete the user ${id} permanently?`,
+            )
+        ) {
+            api.deleteUser(id)
+            window.location.reload()
+        }
+    };
       
 
    const fetchData = useCallback(async () => {
@@ -55,7 +71,8 @@ function UsersList() {
                 Cell: function(props) {
                     return (
                         <span>
-                            <Update onClick={()=>updateUser(props.original._id)}>Update</Update>
+                            <Update onClick={updateUser(props.original._id)}>Update</Update>
+                            <Delete onClick={deleteUser(props.original._id)}>Delete</Delete>
                         </span>
                     )
                 },
