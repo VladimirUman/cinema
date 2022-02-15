@@ -23,12 +23,12 @@ const Delete = styled.a.attrs({
 function UsersList() {
     const [users, setUsers] = useState({});
 
-    const updateUser  = (id) => (e) => {
+    const updateUser  = (id) => () => {
        
         window.location.href = `/users/update/${id}`
     };
 
-    const deleteUser  = (id) => (e) => {
+    const deleteUser  = (id) => () => {
        
         if (
             window.confirm(
