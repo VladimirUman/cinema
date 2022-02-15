@@ -9,9 +9,28 @@ import 'react-table/react-table.css'
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
 `
+const Update = styled.a.attrs({
+    className: `btn btn-danger`,
+})`
+    margin: 15px 15px 15px 5px;
+`
+// function UpdateUser() {
+//     function updateUser(e) {
+//         e.preventDefault()
+
+//         window.location.href = `/users/update/${this.props.id}`
+//     }
+//         return <Update onClick={updateUser}>Update</Update>
+    
+// } 
 
 function UsersList() {
     const [users, setUsers] = useState({});
+
+    const updateUser  = useCallback((id) => {
+       
+        window.location.href = `/users/update/${id}`
+    }, []);
       
 
    const fetchData = useCallback(async () => {
@@ -38,7 +57,17 @@ function UsersList() {
                 Header: 'Email',
                 accessor: 'email',
             },
-            
+            {
+                Header: '',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                            <Update onClick={()=> updateUser(props.original._id)}>Update</Update>
+                        </span>
+                    )
+                },
+            },
         ]
 
         let showTable = true
