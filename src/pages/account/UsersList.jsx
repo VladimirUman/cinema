@@ -10,19 +10,11 @@ const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
 `
 const Update = styled.a.attrs({
-    className: `btn btn-danger`,
+    className: `btn btn-primary`,
 })`
     margin: 15px 15px 15px 5px;
 `
-// function UpdateUser() {
-//     function updateUser(e) {
-//         e.preventDefault()
 
-//         window.location.href = `/users/update/${this.props.id}`
-//     }
-//         return <Update onClick={updateUser}>Update</Update>
-    
-// } 
 
 function UsersList() {
     const [users, setUsers] = useState({});
@@ -63,7 +55,7 @@ function UsersList() {
                 Cell: function(props) {
                     return (
                         <span>
-                            <Update onClick={()=> updateUser(props.original._id)}>Update</Update>
+                            <Update onClick={()=>updateUser(props.original._id)}>Update</Update>
                         </span>
                     )
                 },
