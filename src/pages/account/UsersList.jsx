@@ -9,9 +9,36 @@ import 'react-table/react-table.css'
 const Wrapper = styled.div`
     padding: 0 40px 40px 40px;
 `
+const Update = styled.a.attrs({
+    className: `btn btn-primary`,
+})`
+    margin: 15px 15px 15px 5px;
+`
+const Delete = styled.a.attrs({
+    className: `btn btn-danger`,
+})`
+    margin: 15px 15px 15px 5px;
+`
 
 function UsersList() {
     const [users, setUsers] = useState({});
+
+    const updateUser  = (id) => () => {
+       
+        window.location.href = `/users/update/${id}`
+    };
+
+    const deleteUser  = (id) => () => {
+       
+        if (
+            window.confirm(
+                `Do tou want to delete the user ${id} permanently?`,
+            )
+        ) {
+            api.deleteUser(id)
+            window.location.reload()
+        }
+    };
       
 
    const fetchData = useCallback(async () => {
@@ -38,7 +65,18 @@ function UsersList() {
                 Header: 'Email',
                 accessor: 'email',
             },
-            
+            {
+                Header: '',
+                accessor: '',
+                Cell: function(props) {
+                    return (
+                        <span>
+                            <Update onClick={updateUser(props.original._id)}>Update</Update>
+                            <Delete onClick={deleteUser(props.original._id)}>Delete</Delete>
+                        </span>
+                    )
+                },
+            },
         ]
 
         let showTable = true

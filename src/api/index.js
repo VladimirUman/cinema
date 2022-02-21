@@ -88,6 +88,7 @@ export const getAccount = () => api.get(`/account`)
 export const changePassword = payload => api.put('/account/change-password', payload)
 export const getUserById = id => api.get(`/users/${id}`)
 export const updateUser = (id, payload) => api.put(`/users/${id}`, payload)
+export const deleteUser = id => api.delete(`/users/${id}`)
 
 const apis = {
     insertMovie,
@@ -107,7 +108,8 @@ const apis = {
     getAccount,
     changePassword,
     getUserById,
-    updateUser
+    updateUser,
+    deleteUser
 }
 
 export default apis
